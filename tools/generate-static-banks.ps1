@@ -1,3 +1,11 @@
+[CmdletBinding()]
+param(
+    [ValidateSet('all', 'normal', 'pro', 'normal-renew', 'pro-renew')]
+    [string[]]$Selection = @('all')
+)
+
+$ErrorActionPreference = 'Stop'
+
 function Get-QuestionBank {
     param(
         [string]$Path,
@@ -58,11 +66,17 @@ function Render-BankPage {
     }
 
     $generatedAt = Get-Date -Format 'yyyy-MM-dd'
+    $versionStat = ''
+    if ($Bank.version -and $Bank.version -ne 'latest') {
+        $displayVersion = $Bank.version -replace '\.', '/'
+        $versionStat = "                <div class=""bank-stat""><strong>$(HtmlEscape $displayVersion)</strong>官方題庫版本</div>"
+    }
     $html = @"
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$Title - 全國無人機測驗中心</title>
     <meta name="description" content="$Description">
@@ -92,6 +106,7 @@ function Render-BankPage {
             <section class="bank-summary" aria-label="題庫摘要">
                 <div class="bank-stat"><strong>$($items.Count)</strong>總題數</div>
                 <div class="bank-stat"><strong>$($sections.Count)</strong>章節數</div>
+$versionStat
                 <div class="bank-stat"><strong>$generatedAt</strong>頁面產生日期</div>
             </section>
 
@@ -122,6 +137,7 @@ $($questionHtml.ToString().TrimEnd())
 
 $banks = @(
     @{
+        Key = 'normal'
         Path = 'data_normal.js'
         ConstName = 'dataNormal'
         OutPath = 'questions/normal-bank.html'
@@ -130,6 +146,7 @@ $banks = @(
         Canonical = 'https://uav-test.tw/questions/normal-bank.html'
     },
     @{
+        Key = 'pro'
         Path = 'data_pro.js'
         ConstName = 'dataPro'
         OutPath = 'questions/pro-bank.html'
@@ -138,26 +155,34 @@ $banks = @(
         Canonical = 'https://uav-test.tw/questions/pro-bank.html'
     },
     @{
+        Key = 'normal-renew'
         Path = 'data_normal_renew.js'
         ConstName = 'dataNormalRenew'
         OutPath = 'questions/normal-renew-bank.html'
         Title = '屆期換證簡易靜態題庫'
-        Description = '無人機操作證屆期換證簡易靜態題庫，包含章節、題號、選項與正確答案，正式版本請以民航局公告為準。'
+        Description = '民航局 115 年 4 月 7 日版無人機操作證屆期換證簡易靜態題庫，共 120 題，包含選項與正確答案。'
         Canonical = 'https://uav-test.tw/questions/normal-renew-bank.html'
     },
     @{
+        Key = 'pro-renew'
         Path = 'data_pro_renew.js'
         ConstName = 'dataProRenew'
         OutPath = 'questions/pro-renew-bank.html'
         Title = '屆期換證完整靜態題庫'
-        Description = '無人機操作證屆期換證完整靜態題庫，包含章節、題號、選項與正確答案，正式版本請以民航局公告為準。'
+        Description = '民航局 115 年 4 月 7 日版無人機操作證屆期換證完整靜態題庫，共 324 題，包含選項與正確答案。'
         Canonical = 'https://uav-test.tw/questions/pro-renew-bank.html'
     }
 )
 
-foreach ($config in $banks) {
-    $bank = Get-QuestionBank -Path $config.Path -ConstName $config.ConstName
-    Render-BankPage -OutPath $config.OutPath -Title $config.Title -Description $config.Description -Canonical $config.Canonical -Bank $bank
+$selectedBanks = if ($Selection -contains 'all') {
+    $banks
+} else {
+    @($banks | Where-Object { $Selection -contains $_.Key })
 }
 
-Write-Output "Generated $($banks.Count) static question bank pages."
+foreach ($config in $selectedBanks) {
+    $questionBank = Get-QuestionBank -Path $config.Path -ConstName $config.ConstName
+    Render-BankPage -OutPath $config.OutPath -Title $config.Title -Description $config.Description -Canonical $config.Canonical -Bank $questionBank
+}
+
+Write-Output "Generated $($selectedBanks.Count) static question bank pages."

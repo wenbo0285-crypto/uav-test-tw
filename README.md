@@ -43,8 +43,10 @@ The validation script currently checks these data sets:
 
 - `data_normal.js`: 388 ordinary-certificate questions
 - `data_pro.js`: 588 professional-certificate questions
-- `data_normal_renew.js`: 120 ordinary renewal questions
-- `data_pro_renew.js`: 324 professional renewal questions
+- `data_normal_renew.js`: 120 ordinary renewal questions (CAA 115/4/7 version)
+- `data_pro_renew.js`: 324 professional renewal questions (CAA 115/4/7 version)
+
+The renewal banks were last cross-checked against the official ODT, PDF, and DOC downloads on 2026-08-20.
 
 ## Local Development
 
@@ -82,6 +84,20 @@ Netlify is configured through `netlify.toml` to run this validation before publi
 [build]
   command = "npm run validate"
   publish = "."
+```
+
+## Regenerating Static Question Banks
+
+After updating question-bank data, regenerate every static bank page:
+
+```powershell
+.\tools\generate-static-banks.ps1
+```
+
+To regenerate only the two renewal pages:
+
+```powershell
+.\tools\generate-static-banks.ps1 -Selection normal-renew,pro-renew
 ```
 
 ## Deployment
