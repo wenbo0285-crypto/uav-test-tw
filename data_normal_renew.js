@@ -1,5 +1,5 @@
 const dataNormalRenew = {
-  "version": "latest",
+  "version": "115.4.7",
   "sectionTitle": {
     "s1": "無人機學科測驗"
   },
@@ -1232,9 +1232,9 @@ const dataNormalRenew = {
       "section": 1,
       "description": "近年來多起客機疑與無人機的碰撞實例，大多發生於下列何種時機？",
       "options": {
-        "a": "客機在機場爬升過程中。",
+        "a": "客機在機場停駐時。",
         "b": "客機在空中平飛過程中。",
-        "c": "客機在機場下降過程中。",
+        "c": "客機在機場爬升或下降過程中。",
         "d": "客機在空中轉彎過程中。"
       },
       "number": 103,

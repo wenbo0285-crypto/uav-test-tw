@@ -1,3 +1,8 @@
 [build]
   command = "npm run validate"
   publish = "."
+
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/assets/favicon.svg"
+  status = 200
