@@ -73,6 +73,7 @@ npm run validate
 The validation checks:
 
 - core static pages exist
+- question-bank source hashes remain unchanged unless an official update is deliberately reviewed
 - question-bank JavaScript files can be parsed
 - questions include complete option and answer structures
 - `sitemap.xml` includes key public pages

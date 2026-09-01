@@ -93,6 +93,7 @@ function Render-BankPage {
                 <a href="../sources.html">資料來源</a>
                 <a href="../privacy.html">隱私權政策</a>
                 <a href="../contact.html">聯絡我們</a>
+                <a href="../friends.html">友站連結</a>
             </nav>
         </div>
     </header>

@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.2 - 2026-09-01
+
+- Corrected the operation-certificate validity from two years to three years under Article 23 of the current regulations.
+- Added the transition note for certificates obtained before the 2024-12-01 amendment took effect.
+- Corrected the learning-certificate minimum age from 16 to 14 and clarified the current certificate requirements and operating scope.
+- Added the friend-links page and its shortcut to the site header navigation.
+- Added an official regulation source note and regression checks for the current validity wording.
+- Added immutable question-bank hash checks so non-official edits fail validation.
+
 ## v1.0.1 - 2026-08-20
 
 - Synchronized both renewal question banks with the CAA 115/4/7 release.
