@@ -1,3 +1,4 @@
+import { compareStaticBank } from './static-bank-check.mjs';
 import fs from "node:fs";
 import crypto from "node:crypto";
 import vm from "node:vm";
@@ -27,13 +28,13 @@ const renewalVersion = "115.4.7";
 const banks = [
   {
     file: "data_normal.js",
-    constName: "dataNormal",
+    constName: "dataNormal", staticPage: "questions/normal-bank.html",
     expectedCount: 388,
     expectedHash: "e0120e070c80dea8758aa248c94e1c18ddca2d816a0d830966dde163c53e0353",
   },
   {
     file: "data_pro.js",
-    constName: "dataPro",
+    constName: "dataPro", staticPage: "questions/pro-bank.html",
     expectedCount: 588,
     expectedHash: "551a752a95c94c3720005655de0cbf8c15dcdd689f840af8945d4c876df56253",
   },
@@ -116,6 +117,7 @@ for (const { file, constName, expectedCount, expectedVersion, expectedHash, stat
     fail(`${file}: expected ${expectedCount} questions, found ${questions.length}`);
   }
 
+  for (const error of compareStaticBank(fs.readFileSync(staticPage, "utf8"), bank)) fail(`${staticPage}: ${error}`);
   const seenNumbers = new Set();
   for (const [id, question] of questions) {
     if (!Number.isInteger(question.number)) {

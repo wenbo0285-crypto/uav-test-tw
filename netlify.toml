@@ -1,6 +1,6 @@
 [build]
-  command = "npm run validate"
-  publish = "."
+  command = "npm run release"
+  publish = "dist"
 
 [[redirects]]
   from = "/favicon.ico"

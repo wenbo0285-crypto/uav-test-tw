@@ -1,13 +1,4 @@
-:root {
-    --primary: #0284c7;
-    --primary-dark: #075985;
-    --accent: #16a34a;
-    --bg: #f1f5f9;
-    --card: #ffffff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-}
+@import url('./tokens.css');
 
 * {
     box-sizing: border-box;
@@ -17,7 +8,7 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: var(--font-ui);
     line-height: 1.75;
 }
 
@@ -26,12 +17,12 @@ a {
 }
 
 .site-header {
-    background: var(--primary);
-    color: #fff;
-    position: sticky;
+    background: var(--header-bg);
+    color: var(--text);
+    position: relative;
     top: 0;
     z-index: 20;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+    border-bottom: 1px solid var(--border);
 }
 
 .site-header-inner {
@@ -45,7 +36,7 @@ a {
 }
 
 .brand {
-    color: #fff;
+    color: var(--text);
     font-weight: 800;
     text-decoration: none;
     white-space: nowrap;
@@ -59,14 +50,14 @@ a {
 }
 
 .site-nav a {
-    color: #e0f2fe;
+    color: var(--text);
     text-decoration: none;
     font-size: 0.92rem;
     font-weight: 700;
 }
 
 .site-nav a:hover {
-    color: #fff;
+    color: var(--text);
 }
 
 .container {
@@ -80,7 +71,7 @@ a {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 28px;
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
 }
 
 .eyebrow {
@@ -110,7 +101,7 @@ h3 {
 
 p,
 li {
-    color: #334155;
+    color: var(--text);
 }
 
 .lead {
@@ -129,7 +120,7 @@ li {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
-    background: #f8fafc;
+    background: var(--surface-soft);
 }
 
 .info-box strong {
@@ -149,14 +140,14 @@ li {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
-    background: #f8fafc;
+    background: var(--surface-soft);
     color: var(--text);
     text-decoration: none;
 }
 
 .article-link:hover {
     border-color: var(--primary);
-    background: #f0f9ff;
+    background: var(--surface-soft);
 }
 
 .article-link strong {
@@ -172,7 +163,7 @@ li {
 
 .callout {
     border-left: 5px solid var(--accent);
-    background: #f0fdf4;
+    background: var(--success-bg);
     padding: 14px 16px;
     margin: 18px 0;
     border-radius: 0 8px 8px 0;
@@ -183,7 +174,7 @@ li {
     border-radius: 8px;
     padding: 16px;
     margin: 18px 0;
-    background: #f8fafc;
+    background: var(--surface-soft);
 }
 
 .checklist li {
@@ -204,7 +195,7 @@ li {
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 8px 12px;
-    background: #f8fafc;
+    background: var(--surface-soft);
     text-decoration: none;
     font-weight: 700;
 }
@@ -229,8 +220,8 @@ td {
 }
 
 th {
-    background: #e0f2fe;
-    color: #0c4a6e;
+    background: var(--surface-soft);
+    color: var(--text);
 }
 
 .question-card {
@@ -238,7 +229,7 @@ th {
     border-radius: 8px;
     padding: 16px;
     margin: 14px 0;
-    background: #fff;
+    background: var(--surface);
 }
 
 .bank-summary {
@@ -249,7 +240,7 @@ th {
 }
 
 .bank-stat {
-    background: #f8fafc;
+    background: var(--surface-soft);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 14px;
@@ -268,7 +259,7 @@ th {
 .question-item {
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: #fff;
+    background: var(--surface);
     padding: 18px;
     margin: 14px 0;
 }
@@ -297,12 +288,12 @@ th {
 }
 
 .option-list .correct {
-    color: var(--accent);
+    color: var(--success);
     font-weight: 800;
 }
 
 .answer {
-    color: var(--accent);
+    color: var(--success);
     font-weight: 800;
 }
 
@@ -345,3 +336,25 @@ th {
         grid-template-columns: 1fr;
     }
 }
+
+:focus-visible { outline: 3px solid var(--primary-dark); outline-offset: 4px; }
+.site-header :focus-visible { outline-color: var(--text); }
+.site-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+.brand { white-space: normal; }
+.container, .site-header { overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+h1, h2 { font-family: var(--font-editorial); color: var(--text-strong); }
+.site-nav button { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; min-height: 44px; font: inherit; cursor: pointer; }
+.site-header-inner { min-height: 76px; flex-wrap: wrap; }
+.site-nav a[href$="friends.html"] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
+
+/* Editorial provenance uses the existing aviation tokens. */
+.content-meta { color: var(--muted); font-size: .875rem; }
+.editorial-source { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-soft); }
+.editorial-source h2 { margin-top: 0; }
+.editorial-source a { overflow-wrap: anywhere; }
+
+.breadcrumbs { color: var(--muted); font-size: .875rem; margin: .5rem 0 1rem; line-height: 1.8; overflow-wrap: anywhere; }
+.question-meta[id] { scroll-margin-top: 7rem; }
+.question-item:has(.question-meta:target) { outline: 2px solid var(--primary); outline-offset: 4px; }

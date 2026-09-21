@@ -1,7 +1,8 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [ValidateSet('all', 'normal', 'pro', 'normal-renew', 'pro-renew')]
-    [string[]]$Selection = @('all')
+    [string[]]$Selection = @('all'),
+    [string]$GeneratedAt = '2026-09-21'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -39,9 +40,9 @@ function Render-BankPage {
     foreach ($q in $items) {
         $sectionKey = "s$($q.section)"
         $sectionTitle = $Bank.sectionTitle.$sectionKey
-        if (-not $sectionTitle) { $sectionTitle = "未分類" }
+        if (-not $sectionTitle) { throw "Missing chapter name: $sectionKey" }
         [void]$questionHtml.AppendLine('                <article class="question-item">')
-        [void]$questionHtml.AppendLine("                    <div class=""question-meta"">第 $($q.section) 章 - $(HtmlEscape $sectionTitle) / 題號 $($q.number)</div>")
+        [void]$questionHtml.AppendLine("                    <div class=""question-meta"" id=""Q$($q.number)"">第 $($q.section) 章 - $(HtmlEscape $sectionTitle) / 題號 $($q.number)</div>")
         [void]$questionHtml.AppendLine("                    <p class=""question-title"">$(HtmlEscape $q.description)</p>")
         [void]$questionHtml.AppendLine('                    <ul class="option-list">')
         foreach ($opt in @('a', 'b', 'c', 'd')) {
@@ -61,11 +62,11 @@ function Render-BankPage {
     foreach ($section in $sections) {
         $sectionKey = "s$($section.Name)"
         $sectionTitle = $Bank.sectionTitle.$sectionKey
-        if (-not $sectionTitle) { $sectionTitle = "未分類" }
+        if (-not $sectionTitle) { throw "Missing chapter name: $sectionKey" }
         [void]$sectionRows.AppendLine("                <tr><td>第 $($section.Name) 章</td><td>$(HtmlEscape $sectionTitle)</td><td>$($section.Count) 題</td></tr>")
     }
 
-    $generatedAt = Get-Date -Format 'yyyy-MM-dd'
+
     $versionStat = ''
     if ($Bank.version -and $Bank.version -ne 'latest') {
         $displayVersion = $Bank.version -replace '\.', '/'
@@ -76,12 +77,17 @@ function Render-BankPage {
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
+    <meta name="question-bank-version" content="$(HtmlEscape $Bank.version)">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$Title - 全國無人機測驗中心</title>
     <meta name="description" content="$Description">
     <link rel="canonical" href="$Canonical">
     <link rel="stylesheet" href="../assets/site.css">
+    <script src="../assets/theme.js"></script>
+    <link rel="stylesheet" href="../assets/navigation.css">
+    <script defer src="../assets/js/analytics.js"></script>
+    <script defer src="../assets/js/navigation.js"></script>
 </head>
 <body>
     <header class="site-header">

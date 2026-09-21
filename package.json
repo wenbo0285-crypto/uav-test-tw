@@ -4,7 +4,16 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "validate": "node tools/validate-site.mjs"
+    "validate": "node tools/validate-site.mjs",
+    "test": "npm run build && playwright test",
+    "test:browser": "playwright test",
+    "preview": "npm run build && node tools/test-server.mjs",
+    "build": "node tools/build.mjs",
+    "release": "npm run build && playwright install chromium && playwright test --grep-invert \"generator is reproducible\""
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "cheerio": "1.2.0"
+  }
 }

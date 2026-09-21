@@ -1,0 +1,16 @@
+.secondary-navigation { display:flex;flex-wrap:wrap;align-items:center;gap:4px; }
+.menu-toggle[hidden], .secondary-navigation[hidden] { display:none !important; }
+.site-nav button.menu-toggle { min-height:44px; padding:8px 12px; font:inherit; color:var(--text); background:var(--surface); border:1px solid var(--border); border-radius:8px; }
+@media(max-width:1150px) {
+ .header-actions,.site-nav { position:relative; }
+ .secondary-navigation { flex-basis:100%; padding:14px; border:1px solid var(--border); border-radius:8px; background:var(--surface-soft); gap:8px 16px; }
+ .secondary-navigation a { min-height:44px;display:inline-flex;align-items:center; }
+ .site-header-inner { flex-wrap:wrap; }
+ .site-nav { justify-content:flex-start; }
+}
+@media(max-width:760px) {
+ .header-inner { padding:12px 14px; }
+ .header .brand-link { font-size:.875rem; gap:8px; }
+ .header .brand-mark { width:28px;height:28px; }
+ .header-actions a,.header-actions button,.header-actions .home-button { padding:8px 6px;min-width:44px; }
+}

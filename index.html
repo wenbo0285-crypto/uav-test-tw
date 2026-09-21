@@ -1,162 +1,79 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>全國無人機測驗中心 (模擬與題庫)</title>
-    <meta name="description" content="全國無人機測驗中心提供台灣無人機普通操作證、專業操作證與屆期換證題庫練習、模擬測驗、考照指南與法規解析。">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>無人機考照題庫｜普通、專業與換證練習－全國無人機測驗中心</title>
+    <meta name="description" content="全國無人機測驗中心提供台灣無人機普通操作證、專業操作證與屆期換證題庫練習、即時對答案、錯題複習、考照指南與法規來源。">
     <link rel="canonical" href="https://uav-test.tw/">
-    <style>
-        :root {
-            --primary: #0284c7;
-            --primary-hover: #0369a1;
-            --secondary: #f8fafc;
-            --success: #16a34a;
-            --success-bg: #dcfce7;
-            --danger: #dc2626;
-            --danger-bg: #fee2e2;
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-        }
-
-        body.dark-mode {
-            --primary: #38bdf8;
-            --primary-hover: #7dd3fc;
-            --secondary: #1e293b;
-            --success: #4ade80;
-            --success-bg: rgba(74, 222, 128, 0.15);
-            --danger: #f87171;
-            --danger-bg: rgba(248, 113, 113, 0.15);
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: #334155;
-        }
-        
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; transition: background-color 0.2s, color 0.2s; }
-        body { margin: 0; padding: 0; background-color: var(--bg-color); color: var(--text-main); }
-        
-        .header { background: var(--primary); padding: 12px 20px; color: white; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .header-actions { display: flex; gap: 8px; }
-        .header-actions button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.85rem; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
-        .header-actions button:hover { background: rgba(255,255,255,0.3); }
-        .header-actions a { color: white; text-decoration: none; font-weight: 700; font-size: 0.85rem; padding: 6px 8px; border-radius: 6px; }
-        .header-actions a:hover { background: rgba(255,255,255,0.2); }
-        
-        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .title-main { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 10px; color: var(--text-main); }
-        .subtitle-main { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
-        
-        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        @media (max-width: 600px) { .grid-2col { grid-template-columns: 1fr; } }
-        
-        .btn-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px 15px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .btn-card:hover { border-color: var(--primary); background: #f0f9ff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15); }
-        body.dark-mode .btn-card:hover { background: #0c4a6e; }
-        .btn-card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: var(--primary); }
-        .btn-card p { margin: 0; font-size: 0.9rem; color: var(--text-muted); }
-        
-        .btn { width: 100%; padding: 16px; border-radius: 8px; border: none; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; }
-        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-
-        .progress-bar-bg { width: 100%; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; margin-bottom: 20px; }
-        .progress-bar-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
-        .q-meta { font-size: 0.9rem; color: var(--primary); font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-        .q-text { font-size: 1.25rem; font-weight: 700; line-height: 1.5; margin-bottom: 25px; }
-        .opt-label { display: flex; align-items: flex-start; padding: 15px; margin-bottom: 10px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 1.1rem; line-height: 1.4; background: var(--card-bg); }
-        .opt-label:hover:not(.disabled) { background-color: var(--secondary); border-color: var(--text-muted); }
-        .opt-label input { margin-top: 4px; margin-right: 12px; transform: scale(1.3); cursor: pointer; }
-        .is-correct { background-color: var(--success-bg) !important; border-color: var(--success) !important; color: var(--success) !important; font-weight: bold; }
-        .is-wrong { background-color: var(--danger-bg) !important; border-color: var(--danger) !important; color: var(--danger) !important; font-weight: bold; }
-        .is-correct label, .is-wrong label { color: inherit; }
-        .disabled { pointer-events: none; opacity: 0.9; }
-
-        .read-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 15px; position: relative; overflow: hidden; }
-        .read-q { font-size: 1.15rem; font-weight: bold; margin-bottom: 15px; color: var(--text-main); }
-        .read-opt { padding: 8px 12px; margin-bottom: 8px; border-radius: 6px; background: var(--secondary); color: var(--text-muted); font-size: 1rem; position: relative; padding-left: 35px; }
-        
-        .read-correct { background: var(--success-bg); color: var(--success); font-weight: bold; border-left: 4px solid var(--success); }
-        .read-correct::before {
-            content: ''; position: absolute; left: 10px; top: 50%; transform: translateY(-50%) scale(0);
-            width: 14px; height: 14px; background-color: transparent; border-radius: 50%;
-            border: 2px solid #22c55e; box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
-            animation: popInCheck 0.3s ease-out forwards 0.1s;
-        }
-        @keyframes popInCheck { to { transform: translateY(-50%) scale(1); } }
-        
-        .contact-box { background: var(--secondary); padding: 18px; border-radius: 8px; margin-top: 20px; border: 1px solid var(--border); }
-        .contact-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.95rem; }
-        .contact-icon { font-size: 1.2rem; margin-right: 10px; }
-        .resource-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
-        .resource-section h2 { font-size: 1.35rem; margin: 0 0 14px; color: var(--text-main); }
-        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .resource-link { display: block; padding: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--secondary); color: var(--text-main); text-decoration: none; }
-        .resource-link strong { display: block; color: var(--primary); margin-bottom: 4px; }
-        .resource-link span { color: var(--text-muted); font-size: 0.9rem; }
-        @media (max-width: 600px) { .resource-grid { grid-template-columns: 1fr; } .header { display: block; } .header-actions { flex-wrap: wrap; margin-top: 8px; } }
-        
-        /* 強化版 SEO 文章區塊樣式 */
-        .seo-article { margin-top: 40px; padding-top: 30px; border-top: 2px dashed var(--border); color: var(--text-main); line-height: 1.8; text-align: justify; }
-        .seo-article h2 { color: var(--primary); font-size: 1.6rem; margin-bottom: 20px; text-align: center; }
-        .seo-article h3 { color: var(--text-main); margin-top: 25px; margin-bottom: 15px; font-size: 1.3rem; border-left: 5px solid var(--primary); padding-left: 12px; }
-        .seo-article p { font-size: 1rem; margin-bottom: 15px; color: var(--text-muted); }
-        .seo-article ul { padding-left: 25px; font-size: 1rem; margin-bottom: 20px; color: var(--text-muted); }
-        .seo-article li { margin-bottom: 10px; }
-        .seo-article strong { color: var(--text-main); }
-    </style>
+    <link rel="stylesheet" href="./assets/app.css">
+    <link rel="stylesheet" href="./assets/navigation.css">
+    <script defer src="./assets/js/analytics.js"></script>
+    <script defer src="./assets/js/navigation.js"></script>
 </head>
 <body class="light-mode">
 
-    <div class="header">
-        <h1 onclick="app.goHome()">無人機學科題庫</h1>
-        <div class="header-actions">
-            <a href="./guide/basic-drone-license.html">普通證指南</a>
-            <a href="./guide/pro-drone-license.html">專業證指南</a>
-            <a href="./guide/index.html">教學文章</a>
-            <a href="./questions/normal.html">題庫解析</a>
+    <header class="header">
+        <div class="header-inner">
+        <a class="brand-link" href="./index.html" onclick="event.preventDefault(); app.goHome()"><span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#flight"></use></svg></span><span class="brand-copy">無人機學科題庫<small>UAV KNOWLEDGE</small></span></a>
+        <nav class="header-actions" aria-label="主要導覽">
+            <a class="secondary-nav" href="./guide/basic-drone-license.html">普通證指南</a>
+            <a class="secondary-nav" href="./guide/pro-drone-license.html">專業證指南</a>
+            <a class="secondary-nav" href="./guide/index.html">教學文章</a>
+            <a class="secondary-nav" href="./questions/normal.html">題庫解析</a>
             <a href="./friends.html">友站連結</a>
-            <a href="./about.html">關於本站</a>
-            <button onclick="app.toggleDarkMode()" id="dark-mode-btn">🌙 深色模式</button>
-            <button onclick="app.goHome()">回首頁</button>
+            <a class="secondary-nav" href="./about.html">關於本站</a>
+            <button onclick="app.toggleDarkMode()" id="dark-mode-btn"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#moon"></use></svg><span class="theme-label">深色模式</span></button>
+            <button class="home-button" onclick="app.goHome()" aria-label="回首頁"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#home"></use></svg></button>
+        </nav>
         </div>
-    </div>
+    </header>
 
     <div class="container">
         <div id="screen-home" class="card">
-            <div class="title-main">全國無人機測驗中心</div>
-            <div class="subtitle-main">依民航局公開題庫整理；屆期換證題庫已同步至 115/4/7 版本</div>
-            
-            <div class="grid-2col">
-                <div class="btn-card" onclick="app.selectCategory('normal')">
-                    <h3>普通操作證</h3>
-                    <p>適合初次報考自然人</p>
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero-copy">
+                    <div class="eyebrow">UAV KNOWLEDGE &amp; EXAMINATION</div>
+                    <h1 id="hero-title" class="title-main">飛行的自由，<br>來自正確的知識。</h1>
+                    <p class="hero-description">普通・專業・屆期換證：四類無人機考照題庫<br>民航局公開題庫整理・民間學習工具・非官方網站<br>從每一道題目，累積安心起飛的底氣。</p>
+                    <div class="hero-actions"><a class="btn btn-primary" href="#bank-entry">開始練習 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></a><a class="btn btn-outline" href="./sources.html">了解題庫</a></div>
                 </div>
-                <div class="btn-card" onclick="app.selectCategory('pro')">
-                    <h3>專業操作證</h3>
-                    <p>商用空拍、農噴作業</p>
-                </div>
-                <div class="btn-card" onclick="app.selectCategory('normal_renew')">
-                    <h3>屆期換證 (簡易)</h3>
-                    <p>115/4/7 官方版本 · 120 題</p>
-                </div>
-                <div class="btn-card" onclick="app.selectCategory('pro_renew')">
-                    <h3>屆期換證 (完整)</h3>
-                    <p>115/4/7 官方版本 · 324 題</p>
-                </div>
-            </div>
+                <div class="hero-visual" aria-hidden="true"><img src="./assets/aviation-hero.svg" width="760" height="580" alt="" fetchpriority="high"><span class="hero-caption">KNOWLEDGE BEFORE FLIGHT</span></div>
+            </section>
+            <section class="data-strip" aria-label="題庫資料摘要">
+                <div class="data-item"><strong>1,420<small>題</small></strong><span>公開題庫總數</span></div>
+                <div class="data-item"><strong>4<small>類</small></strong><span>獨立證照題庫</span></div>
+                <div class="data-item"><a href="./sources.html">資料來源與版本</a><span>以民航局公告為準</span></div>
+                <div class="data-item"><a href="#static-bank-title">完整靜態題庫</a><span>依原題號查閱官方解答</span></div>
+            </section>
+            <section id="bank-entry" aria-labelledby="bank-heading">
+                <div class="section-heading"><div><span class="section-index">01 / QUESTION BANKS</span><h2 id="bank-heading">選擇你的飛行起點</h2></div><p>四類題庫，各自練習。準備好，再起飛。</p></div>
+                <div class="bank-grid"><button type="button" class="btn-card" onclick="app.selectCategory('normal')">
+  <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#drone"></use></svg><span class="bank-code" aria-hidden="true">01 / BASIC</span></span>
+  <span class="card-title">普通操作證</span><span class="card-description">適合初次報考自然人</span>
+  <span class="bank-bottom"><span class="bank-count">388 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+</button>
+<button type="button" class="btn-card" onclick="app.selectCategory('pro')">
+  <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#compass"></use></svg><span class="bank-code" aria-hidden="true">02 / PROFESSIONAL</span></span>
+  <span class="card-title">專業操作證</span><span class="card-description">商用空拍、農噴作業</span>
+  <span class="bank-bottom"><span class="bank-count">588 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+</button>
+<button type="button" class="btn-card" onclick="app.selectCategory('normal_renew')">
+  <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#renew"></use></svg><span class="bank-code" aria-hidden="true">03 / RENEWAL</span></span>
+  <span class="card-title">屆期換證 (簡易)</span><span class="card-description">115/4/7 官方版本</span>
+  <span class="bank-bottom"><span class="bank-count">120 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+</button>
+<button type="button" class="btn-card" onclick="app.selectCategory('pro_renew')">
+  <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#shield"></use></svg><span class="bank-code" aria-hidden="true">04 / RENEWAL</span></span>
+  <span class="card-title">屆期換證 (完整)</span><span class="card-description">115/4/7 官方版本</span>
+  <span class="bank-bottom"><span class="bank-count">324 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+</button></div>
+            </section>
+            <section class="tools-section" aria-label="常用學習工具"><div class="tools-grid"><a class="tool-link" href="#bank-entry"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#book"></use></svg><span><strong>閱讀模式</strong><small>選擇題庫，逐題熟悉官方解答</small></span></a>
+<a class="tool-link" href="./guide/index.html"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#compass"></use></svg><span><strong>考照指南</strong><small>從考前準備到安全飛行</small></span></a>
+<a class="tool-link" href="./questions/normal.html"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#list"></use></svg><span><strong>題庫解析</strong><small>掌握常見題型與學習重點</small></span></a>
+<a class="tool-link" href="./sources.html"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#source"></use></svg><span><strong>官方來源</strong><small>查閱題庫版本與資料依據</small></span></a></div></section>
 
             <section class="resource-section" aria-labelledby="resources-title">
                 <h2 id="resources-title">考照與法規學習資源</h2>
@@ -223,6 +140,7 @@
                 <h2>台灣無人機考照指南與法規重點整理</h2>
                 <p>隨著無人機（UAV）技術在空拍、農業植保、物流運輸及公共巡檢等領域的發展，台灣交通部民用航空局（CAA）已建置遙控無人機管理與操作證測驗制度。本網站「全國無人機測驗中心」提供線上學科題庫練習、模擬測驗與考照重點整理。題庫版本、報名流程、費用、考場與法規更新，請以民航局官方公告及遙控無人機管理資訊系統為準。</p>
 
+                <details class="guide-details"><summary>展開考照指南與法規重點</summary>
                 <h3>一、 為什麼需要考取無人機操作證？</h3>
                 <p>依《民用航空法》第 99 條之 10 及《遙控無人機管理規則》第 19 條，操作政府機關（構）、學校或法人所有的遙控無人機，或操作自然人所有、最大起飛重量二公斤以上未達十五公斤且裝置導航設備的遙控無人機，以及最大起飛重量十五公斤以上的遙控無人機，均須持有相應操作證。是否需要持證應依所有人身分、最大起飛重量與導航設備判斷，不宜只以是否營利判斷。</p>
 
@@ -234,7 +152,7 @@
                 </ul>
 
                 <h3>三、 學科測驗重點解析與準備技巧</h3>
-                <p>無人機學科測驗並非只是常識問答，其內容涵蓋了高度專業的航空領域知識。本站題庫精確收錄了官方最新考點，主要包含以下四大單元：</p>
+                <p>無人機學科測驗並非只是常識問答，其內容涵蓋了高度專業的航空領域知識。本站依目前收錄版本整理題庫，版本與查核範圍可見資料來源頁；學習主題包含以下四類：</p>
                 <ul>
                     <li><strong>民用航空法及相關法規：</strong> 佔比最重。考生必須熟記無人機的註冊規定、活動空域限制（紅區、黃區、綠區的劃分）、罰則基準（如違規闖入禁航區面臨 30 萬至 150 萬元罰鍰），以及夜間飛行、人群上空飛行的相關禁止條款。</li>
                     <li><strong>基礎飛行原理：</strong> 探討多旋翼與定翼機的升力產生機制、重心位置對飛行的影響、以及各類感測器（GPS、IMU、氣壓計）的運作原理與失效排除。</li>
@@ -256,15 +174,16 @@
                 <h3>六、 結語與測驗平台優勢</h3>
                 <p>通過學科測驗是邁向專業飛手的第一步。我們強烈建議考生在正式報考前，反覆利用本站提供的「閱讀模式」進行地毯式背誦，並透過「測驗模式」檢視學習成效。本站支援跨平台淺色與深色模式切換，無論您是使用電腦或手機，都能獲得最舒適、最高效的備考體驗。祝各位飛友考照順利，安全飛行！</p>
 
+                </details>
                 <div class="contact-box" style="margin-top: 30px;">
                     <strong style="color: var(--text-main); display: block; margin-bottom: 10px;">聯絡我們 (商務合作 / 題庫錯誤回報)</strong>
                     <div class="contact-item">
-                        <span class="contact-icon">✉️</span>
+                        <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#mail"></use></svg></span>
                         <a href="mailto:joe94316186@gmail.com" style="color: var(--primary); text-decoration: none; font-weight: bold;">joe94316186@gmail.com</a>
                     </div>
                     <div class="contact-item">
-                        <span class="contact-icon">💬</span>
-                        <a href="https://lin.ee/PVvkGvx" target="_blank" style="color: #06c755; text-decoration: none; font-weight: bold;">
+                        <span class="contact-icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#chat"></use></svg></span>
+                        <a href="https://lin.ee/PVvkGvx" target="_blank" style="color: var(--success); text-decoration: none; font-weight: bold;">
                             官方 LINE 連結 (ID: @411bydbx)
                         </a>
                     </div>
@@ -276,14 +195,14 @@
             <div class="title-main" id="mode-title"></div>
             <div class="subtitle-main">請選擇學習模式</div>
             <div class="grid-2col">
-                <div class="btn-card" onclick="app.startReadingMode()">
-                    <h3 style="color: #16a34a;">📖 閱讀模式</h3>
-                    <p>完整題庫總覽，適合背誦</p>
-                </div>
-                <div class="btn-card" onclick="app.showQuizOptions()">
-                    <h3 style="color: #ea580c;">📝 測驗模式</h3>
-                    <p>隨機抽題，實戰模擬</p>
-                </div>
+                <button type="button" class="btn-card" onclick="app.startReadingMode()">
+                    <span class="card-title" style="color: var(--success);"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#book"></use></svg>閱讀模式</span>
+                    <span class="card-description">完整題庫總覽，適合背誦</span>
+                </button>
+                <button type="button" class="btn-card" onclick="app.showQuizOptions()">
+                    <span class="card-title" style="color: var(--primary);"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#list"></use></svg>測驗模式</span>
+                    <span class="card-description">隨機抽題，實戰模擬</span>
+                </button>
             </div>
             <button class="btn btn-outline" style="margin-top: 10px;" onclick="app.goHome()">返回上一步</button>
         </div>
@@ -297,22 +216,23 @@
 
         <div id="screen-reading" style="display: none;">
             <div class="card" style="padding: 15px; margin-bottom: 15px;">
-                <h2 style="margin:0; font-size:1.4rem;">📖 題庫總覽</h2>
+                <h2 style="margin:0; font-size:1.4rem;"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#book"></use></svg> 題庫總覽</h2>
                 <p style="margin:5px 0 0 0; color:var(--text-muted);">請直接向下滑動背誦正確解答</p>
             </div>
             <div id="reading-content"></div>
         </div>
 
         <div id="screen-quiz" class="card" style="display: none;">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; color: var(--text-muted); margin-bottom: 8px;">
+            <div class="quiz-status" style="display: flex; justify-content: space-between; font-weight: bold; color: var(--text-muted); margin-bottom: 8px;">
                 <span id="q-progress">進度: 0/0</span>
                 <span id="q-score" style="color: var(--success);">答對: 0</span>
             </div>
-            <div class="progress-bar-bg"><div id="q-bar" class="progress-bar-fill"></div></div>
+            <div class="progress-bar-bg"><div id="q-bar" class="progress-bar-fill" role="progressbar" aria-label="已作答進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div></div>
             <div class="q-meta" id="q-meta">載入中...</div>
-            <div class="q-text" id="q-text">題目載入中...</div>
-            <div id="q-options"></div>
-            <button id="q-btn" class="btn btn-primary" style="margin-top: 25px;" disabled onclick="app.handleQuizAction()">確認答案</button>
+            <div class="q-text" id="q-text" tabindex="-1">題目載入中...</div>
+            <fieldset id="q-options" aria-labelledby="q-text"></fieldset>
+            <div id="q-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+            <button id="q-btn" class="btn btn-primary" style="margin-top: 25px;" disabled onkeydown="if(event.repeat) event.preventDefault()" onclick="app.handleQuizAction(event)">確認答案</button>
         </div>
 
         <div id="screen-result" class="card" style="display: none;">
@@ -327,71 +247,29 @@
         </div>
     </div>
 
-    <div style="max-width: 800px; margin: 30px auto 20px; padding: 0 15px; text-align: justify; font-size: 0.8rem; color: #64748b; line-height: 1.7;">
+    <section class="footer-brand"><div class="brand-link"><span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#flight"></use></svg></span><span>全國無人機測驗中心</span></div><p>把知識帶上天空，把安全放在心上。</p></section>
+    <footer class="legal-footer">
         <div style="margin-bottom: 12px;">
-            <a href="./about.html" style="color:#0284c7; margin-right:12px;">關於本站</a>
-            <a href="./contact.html" style="color:#0284c7; margin-right:12px;">聯絡我們</a>
-            <a href="./sources.html" style="color:#0284c7; margin-right:12px;">資料來源</a>
-            <a href="./friends.html" style="color:#0284c7; margin-right:12px;">友站連結</a>
-            <a href="./privacy.html" style="color:#0284c7; margin-right:12px;">隱私權政策</a>
-            <a href="./disclaimer.html" style="color:#0284c7; margin-right:12px;">免責聲明</a>
-            <a href="./sitemap.xml" style="color:#0284c7;">網站地圖</a>
+            <a class="secondary-nav" href="./about.html" style="color:var(--link-text); margin-right:12px;">關於本站</a>
+            <a href="./contact.html" style="color:var(--link-text); margin-right:12px;">聯絡我們</a>
+            <a href="./sources.html" style="color:var(--link-text); margin-right:12px;">資料來源</a>
+            <a href="./friends.html" style="color:var(--link-text); margin-right:12px;">友站連結</a>
+            <a href="./privacy.html" style="color:var(--link-text); margin-right:12px;">隱私權政策</a>
+            <a href="./disclaimer.html" style="color:var(--link-text); margin-right:12px;">免責聲明</a>
+            <a href="./sitemap.xml" style="color:var(--link-text);">網站地圖</a>
         </div>
-        <strong style="color: #64748b;">【免責聲明與隱私權政策 Privacy Policy】</strong><br>
+        <strong style="color: var(--text-muted);">【免責聲明與隱私權政策 Privacy Policy】</strong><br>
         1. 本網站為私人架設之免費測驗工具，題庫內容均取自交通部民用航空局公開資料，僅供練習參考。本站不對資料之絕對即時性負責，實際考驗標準請依官方最新公告為準。<br>
         2. <b>網站分析與 Cookie：</b> 本站可能使用網站主機紀錄、Google Analytics 或其他統計工具了解頁面瀏覽、閱讀模式、測驗開始、測驗完成與外部連結點擊等匿名化互動資料。<br>
         3. <b>第三方廣告與聯盟連結：</b> 本站可能放置第三方廣告、聯盟行銷連結或合作推薦內容。外部網站的資料處理、Cookie 與交易規則，請以該服務提供者之政策為準。
-    </div>
+    </footer>
 
-    <script src="./data_normal.js"></script>
-    <script src="./data_pro.js"></script>
-    <script src="./data_normal_renew.js"></script>
-    <script src="./data_pro_renew.js"></script>
-    
     <script>
-        window.siteAnalyticsConfig = {
-            gaMeasurementId: 'G-3WQQS2HF5D',
-            debug: false
-        };
-
+        window.learningReady = new Promise(resolve => { window.resolveLearningReady = resolve; });
+        window.trackEvent = window.trackEvent || function() {};
         (function() {
-            const config = window.siteAnalyticsConfig || {};
-            const measurementId = String(config.gaMeasurementId || '').trim();
-
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = window.gtag || function() {
-                window.dataLayer.push(arguments);
-            };
-
-            if (!measurementId) return;
-
-            const gaScript = document.createElement('script');
-            gaScript.async = true;
-            gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-            document.head.appendChild(gaScript);
-
-            window.gtag('js', new Date());
-            window.gtag('config', measurementId, {
-                anonymize_ip: true
-            });
-        })();
-
-        function trackEvent(name, params = {}) {
-            const cleanParams = Object.assign({
-                page_path: window.location.pathname
-            }, params);
-
-            if (window.siteAnalyticsConfig && window.siteAnalyticsConfig.debug) {
-                console.info('[analytics]', name, cleanParams);
-            }
-
-            if (typeof window.gtag === 'function' && window.siteAnalyticsConfig.gaMeasurementId) {
-                window.gtag('event', name, cleanParams);
-            }
-        }
-
-        (function() {
-            const savedMode = localStorage.getItem('darkMode');
+            let savedMode;
+            try { savedMode = localStorage.getItem('darkMode'); } catch {};
             if (savedMode === 'true') {
                 document.body.classList.remove('light-mode');
                 document.body.classList.add('dark-mode');
@@ -419,7 +297,7 @@
                 } else {
                     document.body.classList.add('light-mode');
                 }
-                localStorage.setItem('darkMode', isDark);
+                try { localStorage.setItem('darkMode', isDark); } catch {};
                 this.updateDarkModeButton(isDark);
                 trackEvent('theme_toggle', { theme: isDark ? 'dark' : 'light' });
             },
@@ -428,10 +306,16 @@
                 const btn = document.getElementById('dark-mode-btn');
                 if (btn) {
                     // 已更新為更專業的 深色/淺色 命名
-                    btn.innerText = isDark ? "☀️ 淺色模式" : "🌙 深色模式";
+                    btn.innerHTML = `<svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#${isDark ? 'sun' : 'moon'}"></use></svg><span class="theme-label">${isDark ? '淺色模式' : '深色模式'}</span>`;
                 }
             },
 
+            focusScreen: function(id) {
+                const screen = document.getElementById(id);
+                const heading = screen.querySelector('.title-main, h2') || screen;
+                heading.setAttribute('tabindex', '-1');
+                heading.focus();
+            },
             hideAllScreens: function() {
                 ['screen-home', 'screen-mode', 'screen-quiz-options', 'screen-reading', 'screen-quiz', 'screen-result'].forEach(id => {
                     const el = document.getElementById(id);
@@ -442,24 +326,11 @@
                     this._readingProgressHandler = null;
                 }
             },
-            goHome: function() { window.scrollTo(0,0); this.hideAllScreens(); document.getElementById('screen-home').style.display = 'block'; trackEvent('screen_view', { screen_name: 'home' }); },
-            goModeSelect: function() { this.hideAllScreens(); document.getElementById('screen-mode').style.display = 'block'; trackEvent('screen_view', { screen_name: 'mode_select', question_bank: this.currentCategory }); },
-            selectCategory: function(cat) {
-                this.currentCategory = cat;
-                try {
-                    categoryConfigs['normal'].db = dataNormal;
-                    categoryConfigs['pro'].db = dataPro;
-                    categoryConfigs['normal_renew'].db = dataNormalRenew;
-                    categoryConfigs['pro_renew'].db = dataProRenew;
-                    this.currentDB = categoryConfigs[cat].db;
-                    document.getElementById('mode-title').innerText = categoryConfigs[cat].title;
-                    trackEvent('question_bank_select', {
-                        question_bank: cat,
-                        question_bank_label: categoryConfigs[cat].title,
-                        question_count: Object.keys(this.currentDB.data || {}).length
-                    });
-                    this.goModeSelect();
-                } catch(e) { alert("⚠️ 題庫檔案遺失！"); }
+            goHome: function() { window.scrollTo(0,0); this.hideAllScreens(); document.getElementById('screen-home').style.display = 'block'; this.focusScreen('screen-home'); trackEvent('screen_view', { screen_name: 'home' }); },
+            goModeSelect: function() { this.hideAllScreens(); document.getElementById('screen-mode').style.display = 'block'; this.focusScreen('screen-mode'); trackEvent('screen_view', { screen_name: 'mode_select', question_bank: this.currentCategory }); },
+            selectCategory: async function(cat) {
+                await window.learningReady;
+                return window.learning.select(cat);
             },
             showQuizOptions: function() {
                 this.hideAllScreens();
@@ -477,7 +348,7 @@
                     btn.onclick = () => this.startQuiz(num);
                     container.appendChild(btn);
                 });
-                document.getElementById('screen-quiz-options').style.display = 'block';
+                document.getElementById('screen-quiz-options').style.display = 'block'; this.focusScreen('screen-quiz-options');
                 trackEvent('quiz_options_view', { question_bank: this.currentCategory });
             },
             startReadingMode: function() {
@@ -497,10 +368,10 @@
                         let isCorrect = (opt === qData.answer);
                         html += `<div class="${isCorrect ? 'read-opt read-correct' : 'read-opt'}">(${opt.toUpperCase()}) ${qData.options[opt]}</div>`;
                     });
-                    html += `</div>`;
+                    html += `<p>官方答案：${qData.answer.toUpperCase()}</p></div>`;
                     container.insertAdjacentHTML('beforeend', html);
                 });
-                window.scrollTo(0,0);
+                this.focusScreen('screen-reading');
                 this.readingTrackedDepths = new Set();
                 this.bindReadingProgress();
                 trackEvent('reading_mode_start', {
@@ -508,13 +379,14 @@
                     question_count: questionKeys.length
                 });
             },
-            startQuiz: function(num) {
+            startQuiz: function(num, questionKeys = null, mode = 'practice', deferStartEvent = false) {
                 const quizScreen = document.getElementById('screen-quiz');
                 if (!quizScreen) return;
                 this.hideAllScreens();
                 quizScreen.style.display = 'block';
                 
-                const allKeys = Object.keys(this.currentDB.data);
+                const allKeys = questionKeys ? [...questionKeys] : Object.keys(this.currentDB.data);
+                this.practiceMode = mode;
                 
                 for (let i = allKeys.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -526,13 +398,23 @@
                 
                 this.qIndex = 0; 
                 this.qCorrect = 0; 
-                this.qWrongList = [];
-                trackEvent('quiz_start', {
+                this.qWrongList = []; this.qAnswered = 0; this.actionReadyAt = 0;
+                if (!deferStartEvent) trackEvent(this.practiceMode === 'review' ? 'review_start' : 'quiz_start', {
                     question_bank: this.currentCategory,
                     requested_question_count: num,
                     question_count: this.quizQuestions.length
                 });
                 this.loadQuestion();
+            },
+            renderQuizStatus: function() {
+                const total = this.quizQuestions.length;
+                const percent = total ? this.qAnswered / total * 100 : 0;
+                document.getElementById('q-progress').textContent = `目前第 ${this.qIndex + 1} 題／${total} 題；已作答 ${this.qAnswered} 題`;
+                document.getElementById('q-score').textContent = `答對: ${this.qCorrect}`;
+                const bar = document.getElementById('q-bar');
+                bar.style.width = `${percent}%`;
+                bar.setAttribute('aria-valuenow', String(percent));
+                bar.setAttribute('aria-valuetext', `已作答 ${this.qAnswered}／${total} 題`);
             },
             loadQuestion: function() {
                 this.qState = 'waiting'; this.qSelected = null;
@@ -547,9 +429,8 @@
                 if (!btn || !progressSpan || !scoreSpan || !barFill || !metaDiv || !textDiv || !optContainer) return;
 
                 btn.innerText = "確認答案"; btn.disabled = true;
-                progressSpan.innerText = `進度: ${this.qIndex + 1} / ${this.quizQuestions.length}`;
-                scoreSpan.innerText = `答對: ${this.qCorrect}`;
-                barFill.style.width = `${(this.qIndex / this.quizQuestions.length) * 100}%`;
+                this.renderQuizStatus();
+                document.getElementById('q-feedback').textContent = '';
                 const qData = this.currentDB.data[this.quizQuestions[this.qIndex]];
                 metaDiv.innerText = (this.currentDB.sectionTitle && this.currentDB.sectionTitle["s" + qData.section]) ? `第 ${qData.section} 章 - ${this.currentDB.sectionTitle["s" + qData.section]}` : "模擬測驗";
                 textDiv.innerText = qData.description;
@@ -557,15 +438,22 @@
                 ['a', 'b', 'c', 'd'].forEach(opt => {
                     if (!qData.options[opt]) return;
                     const label = document.createElement('label'); label.className = 'opt-label'; label.id = `opt-${opt}`;
-                    const radio = document.createElement('input'); radio.type = 'radio'; radio.name = 'quiz-opt';
-                    radio.onclick = () => { if(this.qState === 'waiting') { this.qSelected = opt; btn.disabled = false; } };
+                    const radio = document.createElement('input'); radio.type = 'radio'; radio.name = 'quiz-opt'; radio.value = opt;
+                    radio.onchange = () => { if(this.qState === 'waiting') { this.qSelected = opt; btn.disabled = false; } };
                     label.appendChild(radio); label.appendChild(document.createTextNode(`(${opt.toUpperCase()}) ${qData.options[opt]}`));
                     optContainer.appendChild(label);
                 });
+                textDiv.focus();
             },
-            handleQuizAction: function() {
+            handleQuizAction: function(event) {
+                if (event?.detail > 1 || event?.repeat || performance.now() < (this.actionReadyAt || 0)) return;
                 if (this.qState === 'waiting') {
                     const qData = this.currentDB.data[this.quizQuestions[this.qIndex]];
+                    if (!this.qSelected || !qData.options[this.qSelected]) return;
+                    this.qState = 'answered';
+                    this.qAnswered++;
+                    this.actionReadyAt = performance.now() + 400;
+                    document.querySelectorAll('#q-options input').forEach(input => input.disabled = true);
                     document.querySelectorAll('.opt-label').forEach(el => el.classList.add('disabled'));
                     const correctOpt = document.getElementById(`opt-${qData.answer}`);
                     if (correctOpt) correctOpt.classList.add('is-correct');
@@ -576,7 +464,7 @@
                         if (selectedOpt) selectedOpt.classList.add('is-wrong');
                         this.qWrongList.push({ data: qData, userPicked: this.qSelected });
                     }
-                    trackEvent('quiz_answer', {
+                    trackEvent(this.practiceMode === 'review' ? 'review_answer' : 'quiz_answer', {
                         question_bank: this.currentCategory,
                         question_number: qData.number,
                         question_section: qData.section,
@@ -585,10 +473,14 @@
                         selected_option: this.qSelected,
                         correct_option: qData.answer
                     });
-                    this.qState = 'answered';
+                    this.renderQuizStatus();
+                    document.getElementById('q-feedback').textContent = this.qSelected === qData.answer
+                        ? `答對了。官方答案：${qData.answer.toUpperCase()}`
+                        : `本題答錯。你選 ${this.qSelected.toUpperCase()}；官方答案：${qData.answer.toUpperCase()}`;
                     const btn = document.getElementById('q-btn');
                     if (btn) btn.innerText = (this.qIndex === this.quizQuestions.length - 1) ? "查看測驗結果" : "下一題";
-                } else {
+                } else if (this.qState === 'answered') {
+                    this.actionReadyAt = performance.now() + 400;
                     this.qIndex++; (this.qIndex < this.quizQuestions.length) ? this.loadQuestion() : this.showResult();
                 }
             },
@@ -601,11 +493,12 @@
 
                 if (!resultScreen || !percentDiv || !statsDiv || !mistakesContainer || !list) return;
 
-                this.hideAllScreens(); resultScreen.style.display = 'block'; window.scrollTo(0,0);
+                this.qState = 'complete';
+                this.hideAllScreens(); resultScreen.style.display = 'block'; this.focusScreen('screen-result');
                 const total = this.quizQuestions.length; const percent = Math.round((this.qCorrect / total) * 100);
                 percentDiv.innerText = `${percent}%`;
-                statsDiv.innerText = `答對 ${this.qCorrect} 題 / 共 ${total} 題`;
-                trackEvent('quiz_complete', {
+                statsDiv.innerText = `答對 ${this.qCorrect} 題／答錯 ${this.qWrongList.length} 題／已完成 ${this.qAnswered} 題`;
+                trackEvent(this.practiceMode === 'review' ? 'review_complete' : 'quiz_complete', {
                     question_bank: this.currentCategory,
                     question_count: total,
                     correct_count: this.qCorrect,
@@ -622,6 +515,7 @@
                             let isCorrect = (opt === item.data.answer); let isUser = (opt === item.userPicked);
                             html += `<div style="color: ${isCorrect ? 'var(--success)' : (isUser ? 'var(--danger)' : 'var(--text-muted)')}; font-weight: ${isCorrect ? 'bold' : 'normal'}; ${isUser && !isCorrect ? 'text-decoration: line-through;' : ''} margin-bottom: 6px;">(${opt.toUpperCase()}) ${item.data.options[opt]}</div>`;
                         });
+                        html += `<p>你選 ${item.userPicked.toUpperCase()}；官方答案：${item.data.answer.toUpperCase()}</p>`;
                         box.innerHTML = html; list.appendChild(box);
                     });
                 }
@@ -654,24 +548,9 @@
             const isDark = document.body.classList.contains('dark-mode');
             app.updateDarkModeButton(isDark);
 
-            document.addEventListener('click', function(event) {
-                const link = event.target.closest('a[href]');
-                if (!link) return;
 
-                const url = new URL(link.href, window.location.href);
-                const isExternal = url.origin !== window.location.origin;
-                const isAffiliate = link.dataset.track === 'affiliate_click' || link.classList.contains('affiliate-link');
-                const isSponsor = link.dataset.track === 'sponsor_click' || link.classList.contains('sponsor-link');
-
-                if (!isExternal && !isAffiliate && !isSponsor) return;
-
-                trackEvent(isAffiliate ? 'affiliate_click' : (isSponsor ? 'sponsor_click' : 'outbound_click'), {
-                    link_url: url.href,
-                    link_text: link.innerText.trim().slice(0, 80),
-                    placement: link.dataset.placement || 'site_link'
-                });
-            });
         });
     </script>
+<script type="module" src="./assets/js/learning-ui.js"></script>
 </body>
 </html>
