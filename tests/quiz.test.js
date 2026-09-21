@@ -160,6 +160,7 @@ test('saved theme follows article links',async ({page})=>{
 
 test('perfect result has no stale mistakes; rapid repeated activation records once',async ({page})=>{
   await start(page,'普通操作證');
+  await ready(page);
   await page.evaluate(()=>app.startQuiz(2));
   for(let i=0;i<2;i++) {
     await ready(page);
@@ -167,6 +168,9 @@ test('perfect result has no stale mistakes; rapid repeated activation records on
     await page.locator(`input[value="${answer}"]`).check();
     await page.locator('#q-btn').click();
     await page.evaluate(()=>{for(let j=0;j<10;j++) app.handleQuizAction();});
+    // The click starts an asynchronous Web Locks storage transaction. Repeated
+    // activation must stay ignored both while saving and after it settles.
+    await expect.poll(()=>page.evaluate(()=>learning.busy)).toBe(false);
     expect(await page.evaluate(()=>app.qAnswered)).toBe(i+1);
     expect(await page.evaluate(()=>app.qIndex)).toBe(i);
     await ready(page); await page.locator('#q-btn').click();
