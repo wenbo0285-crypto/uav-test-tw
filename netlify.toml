@@ -2,6 +2,11 @@
   command = "npm run release"
   publish = "dist"
 
+# Preserve the verified HTML links; automatic rewriting hides the friend link
+# in the responsive navigation by changing friends.html to friends.
+[build.processing.html]
+  pretty_urls = false
+
 [[redirects]]
   from = "/favicon.ico"
   to = "/assets/favicon.svg"
