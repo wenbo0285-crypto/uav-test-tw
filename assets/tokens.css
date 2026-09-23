@@ -1,0 +1,54 @@
+/* Cream Aviation — shared visual tokens for practice and editorial pages. */
+:root {
+  color-scheme: light;
+  --bg: #f8f4eb;
+  --surface: #fffdf8;
+  --surface-soft: #f2ece0;
+  --text: #183243;
+  --text-strong: #102b3a;
+  --muted: #626975;
+  --primary: #27485d;
+  --primary-strong: #16384a;
+  --accent: #d6b46a;
+  --accent-soft: #efe2c4;
+  --border: #ded7c9;
+  --success: #166534;
+  --success-bg: #d1fadf;
+  --danger: #b91c1c;
+  --danger-bg: #fee2e2;
+  --button-bg: #16384a;
+  --button-hover: #102b3a;
+  --on-primary: #fffdf8;
+  --focus: #27485d;
+  --shadow: 0 8px 30px rgba(24,50,67,.06);
+  --font-ui: 'Noto Sans TC','Microsoft JhengHei','PingFang TC',system-ui,sans-serif;
+  --font-editorial: 'Noto Serif TC','Source Han Serif TC','PMingLiU',serif;
+  --radius: 12px;
+}
+html.dark-mode, body.dark-mode {
+  color-scheme: dark;
+  --bg: #0b1c25; --surface: #122a36; --surface-soft: #183542;
+  --text: #f4efe5; --text-strong: #fffdf8; --muted: #b8b6af;
+  --primary: #9cb9c8; --primary-strong: #b7cdd7;
+  --accent: #d6b46a; --accent-soft: #3e3b2b; --border: #294451;
+  --success: #4ade80; --success-bg: #123e2a;
+  --danger: #ff9b9b; --danger-bg: #57242a;
+  --button-bg: #27485d; --button-hover: #33576c;
+  --focus: #d6b46a; --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-ui); }
+button, input { font: inherit; }
+a { color: var(--primary); }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.icon { width: 24px; height: 24px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+/* Resolve aliases on each theme scope, preserving Batch A's inline renderers. */
+:root, html.dark-mode, body.dark-mode {
+  --bg-color: var(--bg); --card-bg: var(--surface); --card: var(--surface);
+  --text-main: var(--text); --text-muted: var(--muted); --secondary: var(--surface-soft);
+  --link-text: var(--primary); --primary-dark: var(--primary);
+  --primary-hover: var(--primary-strong); --header-bg: var(--surface);
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
