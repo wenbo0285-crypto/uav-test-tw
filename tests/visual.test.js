@@ -6,7 +6,7 @@ for (const width of [320,390,768,1024,1440]) for (const dark of [false,true]) {
     await page.addInitScript(dark=>localStorage.setItem('darkMode',String(dark)),dark);
     await page.route(/google-analytics|googletagmanager/,r=>r.abort());
     await page.goto('/');
-    await expect(page.locator('.header a[href="./friends.html"]')).toBeVisible();
+    await expect(page.locator('.header a[href$="friends.html"], .header a[href$="/friends"]')).toBeVisible();
     await expect(page.locator('.bank-grid .btn-card')).toHaveCount(4);
     expect(await page.locator('.bank-count').allTextContents()).toEqual(['388 題','588 題','120 題','324 題']);
     expect(await page.locator('.hero-visual img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);

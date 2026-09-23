@@ -1,7 +1,7 @@
 (() => {
   const init=()=>{
     const nav=document.querySelector('.header-actions, .site-nav');if(!nav)return;
-    const secondary=[...nav.querySelectorAll('a')].filter(a=>!a.pathname.endsWith('/friends.html'));
+    const secondary=[...nav.querySelectorAll('a')].filter(a=>!/(?:^|\/)friends(?:\.html)?\/?$/.test(a.pathname));
     if(!secondary.length)return;
     const panel=document.createElement('div');panel.id='secondary-navigation';panel.className='secondary-navigation';
     const button=document.createElement('button');button.type='button';button.className='menu-toggle';button.textContent='選單';
