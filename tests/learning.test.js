@@ -59,6 +59,7 @@ test('refresh at answer 8 preserves exact order, locks and counts; completion is
   await page.reload();await page.waitForFunction(()=>window.learning);
   await page.evaluate(()=>{window.events=[];window.trackEvent=(name)=>events.push(name);});
   await page.getByRole('button',{name:'繼續上次練習',exact:true}).click();
+  await expect(page.locator('#screen-quiz')).toBeVisible();
   expect(await page.evaluate(()=>app.quizQuestions)).toEqual(before.active.questionIds);
   await expect(page.locator('#q-options input:disabled')).toHaveCount(4);
   await expect(page.locator('#q-score')).toHaveText('答對: 7');
