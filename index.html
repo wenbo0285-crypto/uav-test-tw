@@ -37,7 +37,7 @@
                     <div class="eyebrow">UAV KNOWLEDGE &amp; EXAMINATION</div>
                     <h1 id="hero-title" class="title-main">飛行的自由，<br>來自正確的知識。</h1>
                     <p class="hero-description">普通・專業・屆期換證：四類無人機考照題庫<br>民航局公開題庫整理・民間學習工具・非官方網站<br>從每一道題目，累積安心起飛的底氣。</p>
-                    <div class="hero-actions"><a class="btn btn-primary" href="#bank-entry">開始練習 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></a><a class="btn btn-outline" href="./sources.html">了解題庫</a></div>
+                    <div class="hero-actions"><a class="btn btn-primary" href="#bank-entry">選擇題庫開始練習 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></a><a class="btn btn-outline" href="./sources.html">了解題庫</a></div>
                 </div>
                 <div class="hero-visual" aria-hidden="true"><img src="./assets/aviation-hero.svg" width="760" height="580" alt="" fetchpriority="high"><span class="hero-caption">KNOWLEDGE BEFORE FLIGHT</span></div>
             </section>
@@ -48,26 +48,26 @@
                 <div class="data-item"><a href="#static-bank-title">完整靜態題庫</a><span>依原題號查閱官方解答</span></div>
             </section>
             <section id="bank-entry" aria-labelledby="bank-heading">
-                <div class="section-heading"><div><span class="section-index">01 / QUESTION BANKS</span><h2 id="bank-heading">選擇你的飛行起點</h2></div><p>四類題庫，各自練習。準備好，再起飛。</p></div>
+                <div class="section-heading"><div><span class="section-index">01 / QUESTION BANKS</span><h2 id="bank-heading">選擇你的飛行起點</h2></div><p>點選下方題庫卡片，再選擇測驗或閱讀模式。</p></div>
                 <div class="bank-grid"><button type="button" class="btn-card" onclick="app.selectCategory('normal')">
   <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#drone"></use></svg><span class="bank-code" aria-hidden="true">01 / BASIC</span></span>
   <span class="card-title">普通操作證</span><span class="card-description">適合初次報考自然人</span>
-  <span class="bank-bottom"><span class="bank-count">388 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+  <span class="bank-bottom"><span class="bank-count">388 <small>題</small></span><span class="bank-choice">選擇此題庫 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span></span>
 </button>
 <button type="button" class="btn-card" onclick="app.selectCategory('pro')">
   <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#compass"></use></svg><span class="bank-code" aria-hidden="true">02 / PROFESSIONAL</span></span>
   <span class="card-title">專業操作證</span><span class="card-description">商用空拍、農噴作業</span>
-  <span class="bank-bottom"><span class="bank-count">588 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+  <span class="bank-bottom"><span class="bank-count">588 <small>題</small></span><span class="bank-choice">選擇此題庫 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span></span>
 </button>
 <button type="button" class="btn-card" onclick="app.selectCategory('normal_renew')">
   <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#renew"></use></svg><span class="bank-code" aria-hidden="true">03 / RENEWAL</span></span>
   <span class="card-title">屆期換證 (簡易)</span><span class="card-description">115/4/7 官方版本</span>
-  <span class="bank-bottom"><span class="bank-count">120 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+  <span class="bank-bottom"><span class="bank-count">120 <small>題</small></span><span class="bank-choice">選擇此題庫 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span></span>
 </button>
 <button type="button" class="btn-card" onclick="app.selectCategory('pro_renew')">
   <span class="card-icon-row"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#shield"></use></svg><span class="bank-code" aria-hidden="true">04 / RENEWAL</span></span>
   <span class="card-title">屆期換證 (完整)</span><span class="card-description">115/4/7 官方版本</span>
-  <span class="bank-bottom"><span class="bank-count">324 <small>題</small></span><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span>
+  <span class="bank-bottom"><span class="bank-count">324 <small>題</small></span><span class="bank-choice">選擇此題庫 <svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#arrow"></use></svg></span></span>
 </button></div>
             </section>
             <section class="tools-section" aria-label="常用學習工具"><div class="tools-grid"><a class="tool-link" href="#bank-entry"><svg class="icon" aria-hidden="true" focusable="false"><use href="./assets/icons.svg#book"></use></svg><span><strong>閱讀模式</strong><small>選擇題庫，逐題熟悉官方解答</small></span></a>
@@ -543,6 +543,13 @@
                 window.addEventListener('scroll', handleScroll, { passive: true });
             }
         };
+
+        document.addEventListener('click', function(event) {
+            const link = event.target.closest('#screen-home a[href^="#"]');
+            if (!link) return;
+            const target = document.getElementById(link.hash.slice(1));
+            if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             const isDark = document.body.classList.contains('dark-mode');
