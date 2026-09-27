@@ -25,7 +25,8 @@ for (const width of [320,390,768,1024,1440]) for (const dark of [false,true]) {
       expect(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))).toEqual([]);
       await page.screenshot({path:`output/playwright/ui-after/home-${width}-${dark?'dark':'light'}${zoom?'-200':''}.png`,fullPage:true});
     }
-    await page.getByRole('link',{name:'開始練習'}).click();
+    await page.getByRole('link',{name:'選擇題庫開始練習'}).click();
     expect(await page.evaluate(()=>location.hash)).toBe('#bank-entry');
+    await expect(page.locator('.bank-grid .bank-choice').first()).toBeInViewport();
   });
 }
